@@ -1800,6 +1800,12 @@ if (
                                         value='<?php echo xla('Save and Print') ?>'>
                                         <?php echo xlt('Save and Print'); ?>
                                     </button>
+                                    <?php if (!empty($GLOBALS['oefax_enable_fax'] ?? null)) { ?>
+                                        <button type='button' class="btn btn-success btn-send-msg" onclick="faxLBF()" value="<?php echo xla('Send Fax'); ?>">
+                                            <?php echo xlt('Send Fax'); ?>
+                                        </button>
+                                        <span id='waitplace'></span>
+                                    <?php } ?>
                                     <?php
                                     if (function_exists($formname . '_additional_buttons')) {
                                         // Allow the plug-in to insert more action buttons here.
@@ -1911,6 +1917,29 @@ if (
                     /* post event to portal with current formid from save/edit action */
                     parent.postMessage({formid:<?php echo attr($formid) ?>}, window.location.origin);
                     <?php } ?>
+                    function faxLBF() {
+                        top.restoreSession();
+                        let url = '<?php echo $GLOBALS['web_root']; ?>/interface/forms/LBF/printable.php?formname=<?php echo attr_url($formname); ?>&formid=<?php echo attr_url($formid); ?>&visitid=<?php echo attr_url($visitid); ?>&patientid=<?php echo attr_url($pid); ?>';
+                        let wait = '<span id="fax_wait">' + <?php echo xlj("Building Document") ?> + ' <i class="fa fa-cog fa-spin fa-2x"></i></span>';
+                        $("#waitplace").append(wait);
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: {fax: 1},
+                            success: function (content) {
+                                $("#fax_wait").remove();
+                                let btnClose = <?php echo xlj("Cancel"); ?>;
+                                let title = <?php echo xlj("Send To Contact"); ?>;
+                                let faxUrl = top.webroot_url + '/interface/modules/custom_modules/oe-module-faxsms/contact.php?isContent=0&type=fax&file=' + encodeURIComponent(content);
+                                dlgopen(faxUrl, '', 'modal-sm', 775, '', title, {buttons: [{text: btnClose, close: true, style: 'secondary'}]});
+                            },
+                            error: function () {
+                                $("#fax_wait").remove();
+                                alert(<?php echo xlj('Fax generation failed'); ?>);
+                            }
+                        });
+                        return false;
+                    }
                 </script>
 
             </div>

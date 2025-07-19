@@ -593,6 +593,16 @@ if ($PDF_OUTPUT) {
         exit();
     }
     $pdf->writeHTML($content);
+
+    $fax = empty($_POST['fax']) ? 0 : (int)$_POST['fax'];
+    if ($fax === 1) {
+        $fn = 'lbf_form_' . uniqid() . '.pdf';
+        $tmp_file = $GLOBALS['temporary_files_dir'] . '/' . $fn;
+        file_put_contents($tmp_file, $pdf->Output($fn, 'S'));
+        echo $tmp_file;
+        exit();
+    }
+
     $pdf->Output('form.pdf', 'I'); // D = Download, I = Inline
 } else {
     ?>
