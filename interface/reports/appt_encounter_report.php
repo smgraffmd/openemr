@@ -521,7 +521,7 @@ if (!empty($_POST['form_refresh'])) {
                 <?php echo text($row['pid']); ?>&nbsp;
          </td>
          <td align='right'>
-                <?php echo text($encounter); ?>&nbsp;
+                <a href='../patient_file/encounter/encounter_top.php?set_pid=<?php echo attr_url($patient_id); ?>&set_encounter=<?php echo attr_url($encounter); ?>&formname=fee_sheet&formdesc=<?php echo attr_url(xl('Fee Sheet')); ?>' target='RBot' onclick='top.restoreSession()'><?php echo text($encounter); ?></a>&nbsp;
          </td>
          <td align='right'>
                 <?php echo text(FormatMoney::getBucks($charges)); ?>&nbsp;
