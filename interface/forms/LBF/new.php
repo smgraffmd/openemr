@@ -1800,6 +1800,11 @@ if (
                                         value='<?php echo xla('Save and Print') ?>'>
                                         <?php echo xlt('Save and Print'); ?>
                                     </button>
+                                    <?php if (!empty($GLOBALS['gbl_nabla_ambient_listening'])) { ?>
+                                    <button type='button' class="btn btn-secondary" id="nabla-record-btn">
+                                        <?php echo xlt('Start Nabla Recording'); ?>
+                                    </button>
+                                    <?php } ?>
                                     <?php
                                     if (function_exists($formname . '_additional_buttons')) {
                                         // Allow the plug-in to insert more action buttons here.
@@ -1912,6 +1917,14 @@ if (
                     parent.postMessage({formid:<?php echo attr($formid) ?>}, window.location.origin);
                     <?php } ?>
                 </script>
+                <?php if (!empty($GLOBALS['gbl_nabla_ambient_listening'])) { ?>
+                <script>
+                    window.nablaUploadUrl = '<?php echo $GLOBALS['webroot']; ?>/interface/nabla_upload.php';
+                    window.nablaCsrf = '<?php echo CsrfUtils::collectCsrfToken(); ?>';
+                    window.nablaPid = <?php echo json_encode($pid); ?>;
+                </script>
+                <script src='<?php echo $GLOBALS['webroot']; ?>/interface/forms/LBF/nabla.js'></script>
+                <?php } ?>
 
             </div>
         </div>

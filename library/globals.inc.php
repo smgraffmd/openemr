@@ -989,6 +989,13 @@ $GLOBALS_METADATA = array(
             xl('This is helpful if visits usually do not have charges.')
         ),
 
+        'gbl_nabla_ambient_listening' => array(
+            xl('Enable Nabla Ambient Listening'),
+            'bool',
+            '0',
+            xl('Adds a start/stop recording button to layout based forms.')
+        ),
+
         'gbl_mask_patient_id' => array(
             xl('Mask for Patient IDs'),
             'text',                           // data type
