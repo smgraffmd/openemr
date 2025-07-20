@@ -1525,6 +1525,18 @@
             "global_req": "!disable_calendar"
           },
           {
+            "label": "Encounter Charge Duration",
+            "menu_id": "rep0",
+            "target": "rep",
+            "url": "/interface/reports/encounter_charge_duration.php",
+            "children": [],
+            "requirement": 0,
+            "acl_req": [
+              "acct",
+              "rep_a"
+            ]
+          },
+          {
             "label": "Superbill",
             "menu_id": "rep0",
             "target": "rep",
